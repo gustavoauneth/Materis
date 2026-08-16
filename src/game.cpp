@@ -7,6 +7,8 @@
 
 #include "game.hpp"
 #include "context.hpp"
+#include "scenes/gameplay.hpp"
+#include "managers/scene_manager.hpp"
 
 namespace Materis {
 
@@ -21,11 +23,11 @@ namespace Materis {
 
     void Game::init() { 
         
-        TYRA_LOG("Hello!"); 
+        Materis::setScene(std::make_unique<Gameplay>());
     }
 
     void Game::loop() { 
         
-        TYRA_LOG("Loop!");
+        Materis::handleScene();
     }
 }
