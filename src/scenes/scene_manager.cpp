@@ -5,8 +5,6 @@
  * SDPX-License-Identifier: GPL-3.0-or-later
 */
 
-#pragma once
-
 #include <tyra>
 #include "scene.hpp"
 #include "managers/scene_manager.hpp"
