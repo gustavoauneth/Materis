@@ -1,3 +1,10 @@
+/*
+ * Copyright (C) 2026 Gustavo Furtado
+ *
+ * This file is part of Materis
+ * SDPX-License-Identifier: GPL-3.0-or-later
+*/
+
 #include <tyra>
 #include "context.hpp"
 #include "scenes/gameplay.hpp"
