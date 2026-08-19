@@ -13,4 +13,5 @@ namespace Materis {
 
     void SetEngine(Tyra::Engine* t_engine);
     Tyra::Engine* GetEngine();
+    Tyra::Pad* GetPad();
 }

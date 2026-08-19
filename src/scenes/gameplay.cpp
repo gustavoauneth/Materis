@@ -22,6 +22,8 @@ namespace Materis {
 
     void Gameplay::update() {
 
+        camera.update();
+
         TYRA_LOG("Gameplay loop");
     }
 

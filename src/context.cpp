@@ -10,14 +10,21 @@
 namespace Materis {
 
     static Tyra::Engine* engine = nullptr;
+    static Tyra::Pad* pad = nullptr;
 
     void SetEngine(Tyra::Engine* t_engine) {
 
         engine = t_engine;
+        pad = &t_engine->pad;
     }
 
     Tyra::Engine* GetEngine() {
 
         return engine;
+    }
+
+    Tyra::Pad* GetPad() {
+
+        return pad;
     }
 }

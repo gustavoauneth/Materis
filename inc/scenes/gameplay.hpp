@@ -8,6 +8,7 @@
 #pragma once
 
 #include "scene.hpp"
+#include "camera.hpp"
 #include "managers/scene_manager.hpp"
 
 namespace Materis {
@@ -19,6 +20,9 @@ namespace Materis {
             void init() override;
             void update() override;
             void render() override;
+
+        private:
             
+            Camera camera;
     };
 }
