@@ -26,7 +26,7 @@ void Camera::update() {
 
 void Camera::rotate() {
 
-    const auto& rightJoy = Materis::GetPad()->getRightJoyPad();
+    const auto& rightJoy = Materis::GetEngine()->pad.getRightJoyPad();
 
     if (rightJoy.h <= 100) {
         yaw -= sensitivity;
@@ -52,7 +52,7 @@ void Camera::rotate() {
 
 void Camera::updatePosition() {
 
-    const auto& leftJoy = Materis::GetPad()->getLeftJoyPad();
+    const auto& leftJoy = Materis::GetEngine()->pad.getLeftJoyPad();
 
     Tyra::Vec4 forward(
         Tyra::Math::cos(Materis::Utils::degreesToRadians(yaw)),
@@ -83,10 +83,10 @@ void Camera::updatePosition() {
         position += right * speed;
     }
 
-    if (Materis::GetPad()->getPressed().DpadUp) {
+    if (Materis::GetEngine()->pad.getPressed().DpadUp) {
         position.y += 10.0f;
     }
-    else if (Materis::GetPad()->getPressed().DpadDown) {
+    else if (Materis::GetEngine()->pad.getPressed().DpadDown) {
         position.y -= 10.0f;
     }
 }
