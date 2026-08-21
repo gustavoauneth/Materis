@@ -9,6 +9,7 @@
 
 #include "scene.hpp"
 #include "camera.hpp"
+#include "components/object.hpp"
 #include "managers/scene_manager.hpp"
 
 namespace Materis {
@@ -23,6 +24,9 @@ namespace Materis {
 
         private:
             
+            Tyra::StaticPipeline stapip;
+            Tyra::StaPipOptions renderOptions;
             Camera camera;
+            Object cube;
     };
 }
