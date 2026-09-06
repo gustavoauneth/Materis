@@ -15,6 +15,10 @@ namespace Materis::Utils
         return degrees * (Tyra::Math::PI / 180);
     }
 
+    inline float radiansToDegrees(float radians) {
+        return radians * 180 / Tyra::Math::PI;
+    }
+
     inline float lerp(float a, float b, float x) {
         return a + x * (b - a);
     }
