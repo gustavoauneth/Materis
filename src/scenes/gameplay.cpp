@@ -26,6 +26,9 @@ namespace Materis {
 
         objects.push_back(std::move(cube));
 
+        stapip.setRenderer(&engine->renderer.core);
+        dynpip.setRenderer(&engine->renderer.core);
+
         TYRA_LOG("Gameplay init");
     }
 
@@ -45,8 +48,6 @@ namespace Materis {
 
         Tyra::Engine* engine = Materis::GetEngine();
         Tyra::Renderer& renderer = Materis::GetEngine()->renderer;
-
-        stapip.setRenderer(&engine->renderer.core);
 
         renderer.beginFrame(camera.getCameraInfo());
 
