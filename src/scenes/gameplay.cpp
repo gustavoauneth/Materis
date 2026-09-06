@@ -19,8 +19,11 @@ namespace Materis {
 
         renderOptions.frustumCulling = Tyra::PipelineFrustumCulling_Precise;
 
-        cube.position = Tyra::Vec4(0.0f, 0.0f, 0.0f, 1.0f);
-        cube.init("placeholder.obj", "/", 20.0f);
+        std::unique_ptr<Object> cube = std::make_unique<Object>();
+        cube->position = Tyra::Vec4(0.0f, 0.0f, 0.0f, 1.0f);
+        cube->init("placeholder.obj", "/", 20.0f);
+
+        objects.push_back(std::move(cube));
 
         TYRA_LOG("Gameplay init");
     }
@@ -28,7 +31,11 @@ namespace Materis {
     void Gameplay::update() {
 
         camera.update();
-        cube.update();
+
+        for (std::unique_ptr<Object>& object : objects) {
+
+            object->update();
+        }
 
         TYRA_LOG("Gameplay loop");
     }
@@ -44,7 +51,10 @@ namespace Materis {
 
         renderer.renderer3D.usePipeline(stapip);
 
-        cube.render(stapip, renderOptions);
+        for (std::unique_ptr<Object>& object : objects) {
+
+            object->render(stapip, renderOptions);
+        }
 
         TYRA_LOG("Gameplay render");
         renderer.endFrame();

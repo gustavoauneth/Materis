@@ -27,6 +27,6 @@ namespace Materis {
             Tyra::StaticPipeline stapip;
             Tyra::StaPipOptions renderOptions;
             Camera camera;
-            Object cube;
+            std::vector<std::unique_ptr<Object>> objects;
     };
 }
