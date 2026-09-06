@@ -19,7 +19,15 @@ class Camera {
 
         Tyra::Vec4 lookAt, position, unitCircle;
 
-        float circleRotation, circleLength, pitch, yaw, sensitivity;
+        float circleRotation;
+        float circleLength;
+        float pitch;
+        float yaw;
+        float sensitivity;
+        float distance;
+        float heightOffset;
+        float followSpeed;
+
         const float speed = 40.0f;
 
         Tyra::CameraInfo3D getCameraInfo() {
@@ -27,12 +35,16 @@ class Camera {
             return Tyra::CameraInfo3D(&position, &lookAt);
         }
 
-        void update();
+        void update(const Tyra::Vec4& targetPosition);
 
     private:
 
         void rotate();
-        void updatePosition();
-        void updateLookAt();
+        void updateLookAt(
+            const Tyra::Vec4& targetPosition
+        );
+        void updateFollowPosition(
+            const Tyra::Vec4& targetPosition
+        );
 
 };

@@ -15,17 +15,20 @@ Camera::Camera()
     position(-2767.37, 30.0f, -8166.36),
     circleRotation(0.0f),
     circleLength(30.0f),
-    pitch(0.0f),
+    pitch(15.0f),
     yaw(270.0f),
-    sensitivity(4.58425f) {}
+    sensitivity(4.58425f),
+    distance(1500.0f),
+    heightOffset(100.0f),
+    followSpeed(0.1f) {}
 
 Camera::~Camera() {}
 
-void Camera::update() {
+void Camera::update(const Tyra::Vec4& targetPosition) {
 
     rotate();
-    updatePosition();
-    updateLookAt();
+    updateFollowPosition(targetPosition);
+    updateLookAt(targetPosition);
 
     // TYRA_LOG("X: " + std::to_string(position.x) + " Y: " + std::to_string(position.y) + " Z: " + std::to_string(position.z));
     // TYRA_LOG("RX: " + std::to_string(lookAt.x) + " RY: " + std::to_string(lookAt.y) + " RZ: " + std::to_string(lookAt.z));
@@ -49,60 +52,57 @@ void Camera::rotate() {
         pitch -= sensitivity;
     }
 
-    if (pitch > 89.0F) {
-        pitch = 89.0F; 
+    if (pitch > 80.0F) {
+        pitch = 80.0F; 
     }
-    else if (pitch < -89.0F) {
-        pitch = -89.0F;
-    }
-}
-
-void Camera::updatePosition() {
-
-    const auto& leftJoy = Materis::GetEngine()->pad.getLeftJoyPad();
-
-    Tyra::Vec4 forward(
-        Tyra::Math::cos(Materis::Utils::degreesToRadians(yaw)),
-        0.0F,
-        Tyra::Math::sin(Materis::Utils::degreesToRadians(yaw))
-    );
-
-    Tyra::Vec4 right(
-        Tyra::Math::cos(Materis::Utils::degreesToRadians(yaw + 90.0F)),
-        0.0F,
-        Tyra::Math::sin(Materis::Utils::degreesToRadians(yaw + 90.0F))
-    );
-
-    forward.normalize();
-    right.normalize();
-
-    if (leftJoy.v <= 100) {
-        position += forward * speed;
-    }
-    else if (leftJoy.v >= 200) {
-        position -= forward * speed;
+    else if (pitch < -30.0F) {
+        pitch = -30.0F;
     }
 
-    if (leftJoy.h <= 100) {
-        position -= right * speed;
-    }
-    else if (leftJoy.h >= 200) {
-        position += right * speed;
-    }
+    if (yaw >= 360.0f) {
 
-    if (Materis::GetEngine()->pad.getPressed().DpadUp) {
-        position.y += 10.0f;
+        yaw -= 360.0f;
     }
-    else if (Materis::GetEngine()->pad.getPressed().DpadDown) {
-        position.y -= 10.0f;
+    else if (yaw < 0.0f) {
+
+        yaw += 360.0f;
     }
 }
 
-void Camera::updateLookAt() {
+void Camera::updateFollowPosition(const Tyra::Vec4& targetPosition) {
 
-    lookAt.x = Tyra::Math::cos(Materis::Utils::degreesToRadians(yaw)) * Tyra::Math::cos(Materis::Utils::degreesToRadians(pitch));
-    lookAt.y = Tyra::Math::sin(Materis::Utils::degreesToRadians(pitch));
-    lookAt.z = Tyra::Math::sin(Materis::Utils::degreesToRadians(yaw)) * Tyra::Math::cos(Materis::Utils::degreesToRadians(pitch));
-    
-    lookAt += position;
+    const float yawRad = Materis::Utils::degreesToRadians(
+        yaw
+    );
+
+    const float pitchRad = Materis::Utils::degreesToRadians(
+        pitch
+    );
+
+    Tyra::Vec4 direction(
+        Tyra::Math::cos(pitchRad) * Tyra::Math::cos(yawRad),
+        Tyra::Math::sin(pitchRad),
+        Tyra::Math::cos(pitchRad) * Tyra::Math::sin(yawRad)
+    );
+
+    direction.normalize();
+
+    Tyra::Vec4 desiredPosition = targetPosition;
+
+    desiredPosition.y += heightOffset;
+
+    desiredPosition -= direction * distance;
+
+    position +=
+        (desiredPosition - position)
+        * followSpeed;
+}
+
+void Camera::updateLookAt(const Tyra::Vec4& targetPosition) {
+
+    Tyra::Vec4 target = targetPosition;
+
+    target.y += heightOffset;
+
+    lookAt += (target - lookAt) * 0.15f;
 }
