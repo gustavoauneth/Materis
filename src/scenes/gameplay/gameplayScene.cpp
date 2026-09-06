@@ -7,7 +7,7 @@
 
 #include <tyra>
 #include "context.hpp"
-#include "scenes/gameplay.hpp"
+#include "scenes/gameplay/gameplayScene.hpp"
 
 namespace Materis {
 
@@ -24,7 +24,12 @@ namespace Materis {
         cube->position = Tyra::Vec4(0.0f, 0.0f, 0.0f, 1.0f);
         cube->init("placeholder.obj", "/", 20.0f);
 
+        player.init();
+
         objects.push_back(std::move(cube));
+        entities.push_back(player.entity);
+
+        Tyra::Engine* engine = Materis::GetEngine();
 
         stapip.setRenderer(&engine->renderer.core);
         dynpip.setRenderer(&engine->renderer.core);
@@ -34,11 +39,17 @@ namespace Materis {
 
     void Gameplay::update() {
 
-        camera.update();
+        player.update(camera.yaw);
+        camera.update(player.entity->position);
 
         for (std::unique_ptr<Object>& object : objects) {
 
             object->update();
+        }
+
+        for (std::shared_ptr<Entity>& entity : entities) {
+
+            entity->update();
         }
 
         TYRA_LOG("Gameplay loop");
@@ -59,6 +70,11 @@ namespace Materis {
         }
 
         renderer.renderer3D.usePipeline(dynpip);
+
+        for (std::shared_ptr<Entity>& entity : entities) {
+
+            entity->render(dynpip, dynpipOptions);
+        }
 
         TYRA_LOG("Gameplay render");
         renderer.endFrame();

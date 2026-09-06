@@ -9,8 +9,10 @@
 
 #include "scene.hpp"
 #include "camera.hpp"
+#include "components/entity.hpp"
 #include "components/object.hpp"
 #include "managers/scene_manager.hpp"
+#include "scenes/gameplay/player.hpp"
 
 namespace Materis {
 
@@ -23,6 +25,8 @@ namespace Materis {
             void render() override;
 
         private:
+
+            Materis::Player player;
             
             Tyra::StaticPipeline stapip;
             Tyra::StaPipOptions stapipOptions;
@@ -30,5 +34,6 @@ namespace Materis {
             Tyra::DynPipOptions dynpipOptions;
             Camera camera;
             std::vector<std::unique_ptr<Object>> objects;
+            std::vector<std::shared_ptr<Entity>> entities;
     };
 }

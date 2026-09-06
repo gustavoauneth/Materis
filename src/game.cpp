@@ -7,7 +7,7 @@
 
 #include "game.hpp"
 #include "context.hpp"
-#include "scenes/gameplay.hpp"
+#include "scenes/gameplay/gameplayScene.hpp"
 #include "managers/scene_manager.hpp"
 
 namespace Materis {
