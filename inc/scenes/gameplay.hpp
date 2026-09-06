@@ -26,6 +26,8 @@ namespace Materis {
             
             Tyra::StaticPipeline stapip;
             Tyra::StaPipOptions stapipOptions;
+            Tyra::DynamicPipeline dynpip;
+            Tyra::DynPipOptions dynpipOptions;
             Camera camera;
             std::vector<std::unique_ptr<Object>> objects;
     };

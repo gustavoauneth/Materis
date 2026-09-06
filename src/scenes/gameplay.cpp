@@ -18,6 +18,7 @@ namespace Materis {
         renderer.setClearScreenColor(Tyra::Color(122, 202, 255));
 
         stapipOptions.frustumCulling = Tyra::PipelineFrustumCulling_Precise;
+        dynpipOptions.frustumCulling = Tyra::PipelineFrustumCulling_Precise;
 
         std::unique_ptr<Object> cube = std::make_unique<Object>();
         cube->position = Tyra::Vec4(0.0f, 0.0f, 0.0f, 1.0f);
@@ -55,6 +56,8 @@ namespace Materis {
 
             object->render(stapip, stapipOptions);
         }
+
+        renderer.renderer3D.usePipeline(dynpip);
 
         TYRA_LOG("Gameplay render");
         renderer.endFrame();
